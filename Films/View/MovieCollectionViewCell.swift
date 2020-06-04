@@ -18,7 +18,9 @@ class MovieCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    @IBOutlet private weak var movieImage: UIImageView!
+    @IBOutlet weak var movieImage: UIImageView!
+    @IBOutlet weak var titleMovie: UILabel!
+    @IBOutlet weak var overviewMovie: UILabel!
 }
 
 extension String {
