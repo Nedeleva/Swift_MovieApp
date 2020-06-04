@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let identifier = "TopRated"
+
 class TopRatedViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     private var movies: [Movie]?
@@ -18,8 +20,9 @@ class TopRatedViewController: UIViewController {
         super.viewDidLoad()
         
         let width = (view.frame.size.width - 20) / 3
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: width, height: 190)
+        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        layout?.itemSize = CGSize(width: width, height: 190)
+        
         fetch()
     }
     
@@ -50,9 +53,9 @@ extension TopRatedViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopRated", for: indexPath) as! MovieCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! MovieCollectionViewCell
         cell.movie = movies?[indexPath.item]
-        return cell
+        return cell ?? UICollectionViewCell()
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
       guard let count = movies?.count else {fatalError() }
@@ -60,5 +63,12 @@ extension TopRatedViewController: UICollectionViewDataSource, UICollectionViewDe
       if indexPath.item == count - 1 {
           self.loadMoreData()
       }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "MovieInfoStoryboard", bundle: nil)
+        let movieInfoViewController = storyboard.instantiateViewController(withIdentifier: "MovieInfoViewController") as? MovieInfoViewController
+        guard let movie = movies?[indexPath.row] else {return}
+        movieInfoViewController?.movie = movie
+        self.navigationController?.pushViewController(movieInfoViewController ?? self, animated: true)
     }
 }

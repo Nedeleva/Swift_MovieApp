@@ -8,10 +8,9 @@
 
 import Foundation
 
-struct Results: Codable {
+struct Results: Decodable {
     let results: [Movie]
     let page: Int
     let totalPages: Int
     let totalResults: Int
-    
 }
