@@ -16,7 +16,7 @@ let apiKey = "d89884f21ecad35fd59f71ce10900b70"
 let coder = JSONDecoder()
 
 class API{
-     func fetchMovies(movies: String, page: Int, onSucces: @escaping (Results) -> Void){
+     class func fetchMovies(movies: String, page: Int, onSucces: @escaping (Results) -> Void){
         coder.keyDecodingStrategy = .convertFromSnakeCase
     let urlStr = "\(baseUrl)\(movies)?api_key=\(apiKey)&page=\(page)"
         guard let url = URL(string: urlStr) else {
